@@ -12,11 +12,6 @@
  */
 define('ENVIRONMENT', 'development');
 
-if (ENVIRONMENT == 'development' || ENVIRONMENT == 'dev') {
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
-}
-
 /**
  * Configuration for: URL
  * Here we auto-detect your applications URL and the potential sub-folder. Works perfectly on most servers and in local
@@ -42,7 +37,6 @@ if (ENVIRONMENT == 'development' || ENVIRONMENT == 'dev') {
  * The final, auto-detected URL (build via the segments above). If you don't want to use auto-detection,
  * then replace this line with full URL (and sub-folder) and a trailing slash.
  */
-
 define('URL_PUBLIC_FOLDER', 'public');
 define('URL_PROTOCOL', '//');
 define('URL_DOMAIN', $_SERVER['HTTP_HOST']);

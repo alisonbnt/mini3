@@ -18,6 +18,7 @@ class Application{
         // create array with URL parts in $url
         $this->splitUrl();
         $this->initIdiorm();
+        $this->setEnvironment();
     }
 
     /**
@@ -107,6 +108,16 @@ class Application{
             \ORM::configure(sprintf("%s:host=%s;dbname=%s", DB_TYPE, DB_HOST, DB_NAME));
             \ORM::configure('username', DB_USER);
             \ORM::configure('password', DB_PASS);
+        }
+    }
+
+    /**
+    * Changes the application environment
+    */
+    private function setEnvironment(){
+        if (ENVIRONMENT == 'development' || ENVIRONMENT == 'dev') {
+            error_reporting(E_ALL);
+            ini_set("display_errors", 1);
         }
     }
 }
