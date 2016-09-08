@@ -11,6 +11,11 @@ MINI3 is easy to install, runs nearly everywhere and doesn't make things more co
 [MINI](https://github.com/panique/mini) (original version) and [MINI2](https://github.com/panique/mini2) (used Slim router) were built by me (panique), MINI3 is an excellent and improved version
 of the original MINI, made by [JaoNoctus](https://github.com/JaoNoctus). Big thanks, man! :)
 
+# About this Fork
+This fork was made for personal and quick projects. Since I use Mini as default
+for my projects and Idiorm for fast database access and management, this
+repository aims to integrate both.
+
 ## Features
 
 - extremely simple, easy to understand
@@ -23,6 +28,11 @@ of the original MINI, made by [JaoNoctus](https://github.com/JaoNoctus). Big tha
 - commented code
 - uses only native PHP code, so people don't have to learn a framework
 - uses PSR-4 autoloader
+
+## Fork features
+
+- URL parsing allows controller namespacing, therefore allows route prefixes
+- Uses [Idiorm](https://github.com/j4mie/idiorm) as default database handler
 
 ## Requirements
 
@@ -70,7 +80,7 @@ it's basically the same installation process:
 4. Install composer and run `composer install` in the project's folder to create the PSR-4 autoloading stuff from Composer automatically.
    If you have no idea what this means: Remember the "good" old times when we were using "include file.php" all over our projects to include and use something ?
    PSR-0/4 is the modern, clean and automatic version of that. Please have a google research if that's important for you.  
-   
+
 Feel free to commit your guideline for Ubuntu 16.04 LTS or other linuxes to the list!  
 
 MINI3 runs without any further configuration. You can also put it inside a sub-folder, it will work without any
@@ -118,7 +128,7 @@ are using extremely outdated MySQL versions).
 As this project uses proper PSR-4 namespaces, make sure you load/use your stuff correctly:
 Instead of including classes with old-school code like `include xxx.php`, simply do something like `use Mini\Model\Song;` on top of your file (modern IDEs even do that automatically).
 This would automatically include the file *Song.php* from the folder *Mini/Model* (it's case-sensitive!).
- 
+
 But wait, there's no `Mini/Model/Song.php` in the project, but a `application/Model/Song.php`, right ?
 To keep things cleaner, the composer.json sets a *namespace* (see code below), which is basically a name or an alias, for a certain folder / area of your application,
 in this case the folder `application` is now reachable via `Mini` when including stuff.
@@ -138,7 +148,7 @@ To load the file `application/Model/Song.php`, write a `use Mini\Model\Song;` on
 Have a look into the SongController to get an idea how everything works!
 
 FYI: As decribed in the install tutorial, you'll need do perform a "composer install" when setting up your application for the first time, which will
-create a set of files (= the autoloader) inside /vendor folder. This is the normal way Composer handle this stuff. If you delete your vendor folder 
+create a set of files (= the autoloader) inside /vendor folder. This is the normal way Composer handle this stuff. If you delete your vendor folder
 the autoloading will not work anymore. If you change something in the composer.json, always make sure to run composer install/update again!
 
 ## Goodies
