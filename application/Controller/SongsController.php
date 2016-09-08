@@ -24,11 +24,9 @@ class SongsController
      */
     public function index()
     {
-        // Instance new Model (Song)
-        $Song = new Song();
         // getting all songs and amount of songs
-        $songs = $Song->getAllSongs();
-        $amount_of_songs = $Song->getAmountOfSongs();
+        $songs = \ORM::forTable('song')->findMany();
+        $amount_of_songs = count($songs);
 
        // load views. within the views we can echo out $songs and $amount_of_songs easily
         require APP . 'view/_templates/header.php';
@@ -49,9 +47,13 @@ class SongsController
         // if we have POST data to create a new song entry
         if (isset($_POST["submit_add_song"])) {
             // Instance new Model (Song)
-            $Song = new Song();
-            // do addSong() in model/model.php
-            $Song->addSong($_POST["artist"], $_POST["track"],  $_POST["link"]);
+            $song = \ORM::forTable('song')->create();
+
+            $song->artist = $_POST['artist'];
+            $song->track = $_POST['track'];
+            $song->link = $_POST['link'];
+
+            $song->save();
         }
 
         // where to go after song has been added
@@ -72,9 +74,10 @@ class SongsController
         // if we have an id of a song that should be deleted
         if (isset($song_id)) {
             // Instance new Model (Song)
-            $Song = new Song();
-            // do deleteSong() in model/model.php
-            $Song->deleteSong($song_id);
+            $song = \ORM::forTable('song')->findOne($song_id);
+            if($song){
+                $song->delete();
+            }
         }
 
         // where to go after song has been deleted
@@ -91,9 +94,10 @@ class SongsController
         // if we have an id of a song that should be edited
         if (isset($song_id)) {
             // Instance new Model (Song)
-            $Song = new Song();
-            // do getSong() in model/model.php
-            $song = $Song->getSong($song_id);
+            $song = \ORM::forTable('song')->findOne($song_id);
+            if(!$song){
+                header('location: ' . URL . 'error');
+            }
 
             // in a real application we would also check if this db entry exists and therefore show the result or
             // redirect the user to an error page or similar
@@ -121,9 +125,14 @@ class SongsController
         // if we have POST data to create a new song entry
         if (isset($_POST["submit_update_song"])) {
             // Instance new Model (Song)
-            $Song = new Song();
-            // do updateSong() from model/model.php
-            $Song->updateSong($_POST["artist"], $_POST["track"],  $_POST["link"], $_POST['song_id']);
+
+            $song = \ORM::forTable('song')->findOne($_POST['song_id']);
+
+            $song->artist = $_POST['artist'];
+            $song->track = $_POST['track'];
+            $song->link = $_POST['link'];
+
+            $song->save();
         }
 
         // where to go after song has been added
@@ -137,8 +146,7 @@ class SongsController
     public function ajaxGetStats()
     {
         // Instance new Model (Song)
-        $Song = new Song();
-        $amount_of_songs = $Song->getAmountOfSongs();
+        $amount_of_songs = \ORM::forTable('song')->count();
 
         // simply echo out something. A supersimple API would be possible by echoing JSON here
         echo $amount_of_songs;
